@@ -5,13 +5,13 @@
 
  The connections to the ATTiny are as follows:
  ATTiny    Arduino    Info
- Pin  1  - 5          RESET / Rx (Not receiving any data)
- Pin  2  - 3          Tx for serial conenction
- Pin  3  - 4          FET driver (PWM)
+ Pin  1  - 5          RESET
+ Pin  2  - 3          
+ Pin  3  - 4          
  Pin  4  -            GND
  Pin  5  - 0          RED LED (PWM)
- Pin  6  - 1          GREEN LED
- Pin  7  - 2 / A1     Vsensor (Analog)
+ Pin  6  - 1          
+ Pin  7  - 2 / A1     
  Pin  8  -   +Vcc
  
 */
