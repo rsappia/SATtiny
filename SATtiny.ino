@@ -36,7 +36,7 @@ void setup() {
   pinMode(led, OUTPUT);
   pinMode(1, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
-  pinMode(3, INPUT_PULLUP);
+  pinMode(3, INPUT);
   pinMode(4, INPUT_PULLUP);
  
   setup_watchdog(8); // approximately 4 seconds sleep
