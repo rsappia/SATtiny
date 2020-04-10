@@ -39,7 +39,7 @@ void setup() {
   pinMode(3, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
  
-  setup_watchdog(8); // approximately 2 seconds sleep
+  setup_watchdog(8); // approximately 4 seconds sleep
 
 }
 
@@ -55,7 +55,6 @@ void system_sleep(void)
 }
 
 // 0=16ms, 1=32ms,2=64ms,3=128ms,4=250ms,5=500ms
-
 // 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
 
 void setup_watchdog(int ii) {
