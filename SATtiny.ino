@@ -31,6 +31,7 @@
 #define PATTERN_1 0
 #define PATTERN_2 1
 #define PATTERN_3 2
+#define PATTERN_BOTH 3
 
 #define led_1  0           // the PWM pin the LED is attached to
 #define led_2  1           // the PWM pin the LED is attached to
@@ -46,7 +47,6 @@ int fadeTable[]={255,217,185,158,134,115,98,83,71,60,51,44,37,32,27,23,20};
 int fadeTable_2[]={255,255,255,134,98,83,71,51,44,37,32,23,20};
 int wdt_delay = 9;
 volatile boolean f_wdt = 1;
-int counter = 0;
 int tick_counter=0;
 bool swap_led= 0;
 
@@ -95,7 +95,6 @@ void setup_watchdog(int ii) {
 // Watchdog Interrupt Service / is executed when watchdog timed out
 
 ISR(WDT_vect) {
-  counter++;
   f_wdt=1;  // set global flag
 }
 
@@ -115,6 +114,10 @@ void flashLed (int pin, int pattern){
      case PATTERN_3:
        pattern_3(pin);
     break;
+
+    case PATTERN_BOTH:
+         pattern_1(pin);
+    break;
   }
   analogWrite(pin, 0);
   pinMode(pin,INPUT); // set all used port to intput to save power
@@ -129,20 +132,27 @@ void loop() {
     if(digitalRead(solar_cell)==0){
       
       wdt_delay=8;
-      swap_led=!swap_led;
-      
-      if(swap_led==0){
+
+      if(tick_counter<=2){
+      if(swap_led==false){
+        swap_led=true;
         flashLed (led_1,tick_counter);
       }else{
+        flashLed (led_2,tick_counter);
+        swap_led=false;
+        }
+      }
+
+      if (tick_counter==3){
+        flashLed (led_1,tick_counter);
         flashLed (led_2,tick_counter);
       }
       
       tick_counter++;
-      if (tick_counter>2){
+      if(tick_counter>3){
         tick_counter=0;
-        flashLed (led_1,tick_counter);
-        flashLed (led_2,tick_counter);
       }
+      
      }
     else{
      wdt_delay=9; //minimize the cycles if light is detected
