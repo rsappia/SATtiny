@@ -35,13 +35,11 @@
 
 #define led_1  0           // the PWM pin the LED is attached to
 #define led_2  1           // the PWM pin the LED is attached to
-
+#define solar_cell 3
 #define fadeTablesize 17
 #define fadeTablesize_2 13
 #define prefadeTablesize 6
 
-
-int solar_cell=3;
 int prefadeTable[]={0,121,184,218,235,245};
 int fadeTable[]={255,217,185,158,134,115,98,83,71,60,51,44,37,32,27,23,20};
 int fadeTable_2[]={255,255,255,134,98,83,71,51,44,37,32,23,20};
@@ -170,6 +168,8 @@ void pattern_1(int pin){
      analogWrite(pin, prefadeTable[i]);
      delay(30);
   }
+  analogWrite(pin,255);
+  delay(100);
   for(int i=0;i<fadeTablesize;i++){
      analogWrite(pin, fadeTable[i]);
      delay(30);
@@ -197,6 +197,7 @@ for (int j=0;j<2;j++){
        analogWrite(pin, prefadeTable[i]);
        delay(30);
     }
+
     for(int i=0;i<fadeTablesize_2;i++){
        analogWrite(pin, fadeTable_2[i]);
        delay(35);
