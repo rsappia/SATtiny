@@ -15,7 +15,7 @@
  Pin  3  - 4         
  Pin  4  -            GND
  Pin  5  - 0          RED LED (PWM)
- Pin  6  - 1          GREEN LED (PWM)
+ Pin  6  - 1          RED LED 2 (PWM)
  Pin  7  - 2 / A1     
  Pin  8  -   +Vcc
  
@@ -40,13 +40,15 @@
 #define fadeTablesize_2 13
 #define prefadeTablesize 6
 
+
+
 int prefadeTable[]={0,121,184,218,235,245};
 int fadeTable[]={255,217,185,158,134,115,98,83,71,60,51,44,37,32,27,23,20};
 int fadeTable_2[]={255,255,255,134,98,83,71,51,44,37,32,23,20};
 int wdt_delay = 9;
 volatile boolean f_wdt = 1;
 int tick_counter=0;
-bool swap_led= 0;
+int swap_led= led_1;
 
 void setup() {
   pinMode(led_1, OUTPUT);
@@ -96,29 +98,42 @@ ISR(WDT_vect) {
   f_wdt=1;  // set global flag
 }
 
-void flashLed (int pin, int pattern){
-  pinMode(pin,OUTPUT); // set all ports into state before sleep
+void flashLed (int pattern){
+  
 
   switch (pattern) {
 
     case PATTERN_1:
-       pattern_1(pin);
+       pinMode(led_1,OUTPUT); // set all ports into state before sleep
+       pattern_1(led_1);
+       analogWrite(led_1, 0);
     break;
 
     case PATTERN_2:
-       pattern_2(pin);
+       pinMode(led_2,OUTPUT); // set all ports into state before sleep
+       pattern_2(led_2);
+       analogWrite(led_2, 0);
     break;
 
      case PATTERN_3:
-       pattern_3(pin);
+       pinMode(led_1,OUTPUT); // set all ports into state before sleep
+       pattern_3(led_1);
+       analogWrite(led_1, 0);
     break;
 
     case PATTERN_BOTH:
-         pattern_1(pin);
+        pinMode(led_2,OUTPUT); // set all ports into state before sleep
+         pattern_1(led_2);
+         analogWrite(led_2, 0);
+
+         pinMode(led_1,OUTPUT); // set all ports into state before sleep
+         pattern_1(led_1);
+         analogWrite(led_1, 0);
     break;
   }
-  analogWrite(pin, 0);
-  pinMode(pin,INPUT); // set all used port to intput to save power
+  
+  pinMode(led_1,INPUT); // set all used port to intput to save power
+  pinMode(led_2,INPUT); // set all used port to intput to save power
   
 }
 
@@ -129,23 +144,10 @@ void loop() {
     
     if(digitalRead(solar_cell)==0){
       
-      wdt_delay=8;
+     wdt_delay=8;
 
-      if(tick_counter<=2){
-      if(swap_led==false){
-        swap_led=true;
-        flashLed (led_1,tick_counter);
-      }else{
-        flashLed (led_2,tick_counter);
-        swap_led=false;
-        }
-      }
-
-      if (tick_counter==3){
-        flashLed (led_1,tick_counter);
-        flashLed (led_2,tick_counter);
-      }
-      
+     flashLed (tick_counter);
+          
       tick_counter++;
       if(tick_counter>3){
         tick_counter=0;
