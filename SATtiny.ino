@@ -3,8 +3,8 @@
 
 /*
  * 
- * Witho no light:
- * 4,5uA/6,5uA
+ * With no light:
+ * 4uA/6,5uA
  * With light
  * 4,5uA/1,2mA for 0,7seg
 
@@ -14,7 +14,7 @@
  Pin  2  - 3          Solar cell
  Pin  3  - 4         
  Pin  4  -            GND
- Pin  5  - 0          RED LED (PWM)
+ Pin  5  - 0          RED LED 1 (PWM)
  Pin  6  - 1          RED LED 2 (PWM)
  Pin  7  - 2 / A1     
  Pin  8  -   +Vcc
